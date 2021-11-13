@@ -66,17 +66,18 @@ function typeOfChoice() {
         }
     })
 }
+typeOfChoice();
 function addDepartment(){
     inquirer.prompt([
         {
             message: "What department would you like to add?", 
             type: "input",
             name: "name"
-        } 
+        }, 
     ])
     .then((res => {
-        return connection.query(`SELECT * FROM department`);
-        console.table(res)
-    })
-    )
+        connection.query(`INSERT INTO department SET ?`,
+        {id: res.id, name:res.name});
+        console.table(res.name)
+    }))
 }
