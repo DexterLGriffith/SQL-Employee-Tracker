@@ -11,5 +11,5 @@ LEFT JOIN role AS role ON employee.role_id = role.id
 LEFT JOIN department AS department ON role.department_id = department.id
 LEFT JOIN employee AS employee2 on employee.manager_id = employee2.id 
 
-INSERT INTO role (role.id, role.title, role.salary, role.department_id)
-VALUES (?, ?, ?, ?)
+-- INSERT INTO role (role.id, role.title, role.salary, role.department_id)
+-- VALUES (?, ?, ?, ?)
