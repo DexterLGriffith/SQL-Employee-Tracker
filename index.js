@@ -75,9 +75,21 @@ function addDepartment(){
             name: "name"
         }, 
     ])
-    .then((res => {
-        connection.query(`INSERT INTO department SET ?`,
-        {id: res.id, name:res.name});
-        console.table(res.name)
-    }))
+    .then(function(answer){
+        connection.query("INSERT INTO department SET ?",
+        {id: answer.id, department_name: answer.department_name},
+        function(err, res){
+            if (err) throw err;
+             console.table(res);
+        typeOfChoice();
+        });
+    })
+}
+function viewDepartments(){
+    connection.query("SELECT * FROM department",
+    function(err, res) {
+        if (err) throw err;
+        console.table(res);
+    typeOfChoice();
+    });
 }
