@@ -67,29 +67,91 @@ function typeOfChoice() {
     })
 }
 typeOfChoice();
-function addDepartment(){
+function addDepartment() {
     inquirer.prompt([
         {
-            message: "What department would you like to add?", 
+            message: "What department would you like to add?",
             type: "input",
             name: "name"
-        }, 
+        },
     ])
-    .then(function(answer){
-        connection.query("INSERT INTO department SET ?",
-        {id: answer.id, department_name: answer.department_name},
-        function(err, res){
-            if (err) throw err;
-             console.table(res);
-        typeOfChoice();
-        });
-    })
+        .then(function (answer) {
+            connection.query("INSERT INTO department SET ?",
+                { id: answer.id, department_name: answer.department_name },
+                function (err, res) {
+                    if (err) throw err;
+                    console.table(res);
+                    typeOfChoice();
+                });
+        })
 }
-function viewDepartments(){
+function viewDepartments() {
     connection.query("SELECT * FROM department",
-    function(err, res) {
-        if (err) throw err;
-        console.table(res);
-    typeOfChoice();
-    });
+        function (err, res) {
+            if (err) throw err;
+            console.table(res);
+            typeOfChoice();
+        });
 }
+function allEmployees() {
+    connection.query("SELECT * FROM employee",
+        function (err, res) {
+            if (err) throw err;
+            console.table(res);
+            typeOfChoice();
+        });
+}
+function viewRoles() {
+    connection.query("SELECT * FROM role",
+        function (err, res) {
+            console.table(res);
+            typeOfChoice();
+        });
+}
+function addRole() {
+    connection.query("SELECT * FROM department", function (err, res) {
+      if (err) throw err;
+      const departments = res.map((department) => {
+          return {
+              name: department.name,
+              value: department.id,
+          };
+      })
+      inquirer
+      .prompt([
+        {
+          message: "What is the title of the role?",
+          name: "title",
+          type: "input",
+        },
+        {
+          message: "What is the salary of the role?",
+          name: "salary",
+          type: "input",
+        },
+        {
+          message: "What is the department for the role?",
+          name: "department_id",
+          type: "list",
+          choices: departments,
+        },
+      ])
+      .then(function (answer) {
+        connection.query(
+          "INSERT INTO role SET ?",
+          {
+            id: answer.id,
+            title: answer.title,
+            salary: answer.salary,
+            department_id: answer.department_id,
+          },
+          function (err, res) {
+            if (err) throw err;
+            console.table(res);
+            typeOfChoice();
+          }
+        );
+      });
+  });
+    
+  }
