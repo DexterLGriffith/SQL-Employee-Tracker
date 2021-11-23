@@ -2,7 +2,8 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 const path = require('path');
 
-const connection = require('./db/connection')
+const connection = require('./db/connection');
+const { connect } = require('./db/connection');
 
 
 function typeOfChoice() {
@@ -154,4 +155,57 @@ function addRole() {
       });
   });   
 }
+function addDepartment() {
+    inquirer.prompt([
+        {
+            message: "What's the name of the department you want to add?",
+            name: "department_name",
+            type: "input",
+        },
+    ])
+    .then(function(answer) {
+        connection.query("INSERT INTO department SET?", answer,
+        function (err, res) {
+            if (err) throw err;
+            console.table(res);
+            typeOfChoice();
+        });
+    })
+}
+function deleteDepartment() {
+    connection.query("SELECT * FROM department", function (err, res) {
+        if (err) throw err;
+        const departments = res.map((department) => {
+            return {
+                name: department.department_name,
+                value: department.id,
+            };
+        });
 
+        inquirer.prompt([
+            {
+                message: "What is the name of the department you are wanting to delate?",
+                name: "id",
+                type: "input",
+                choices: departments,
+            },
+        ])
+        .then( function (answer) {
+            connection.query("DELETE FROM department WHERE ?", {
+                id: answer.id,
+            },
+            function (err, res) {
+                if (err) throw err;
+                console.table(res);
+                typeOfChoice();
+            }
+            );
+        });
+    });
+}
+function deleteRole() {
+
+}
+function deleteEmployee() {
+
+}
