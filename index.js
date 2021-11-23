@@ -113,7 +113,7 @@ function addRole() {
       if (err) throw err;
       const departments = res.map((department) => {
           return {
-              name: department.name,
+              name: department.department_name,
               value: department.id,
           };
       })
@@ -152,6 +152,6 @@ function addRole() {
           }
         );
       });
-  });
-    
-  }
+  });   
+}
+
