@@ -4,6 +4,7 @@ const path = require('path');
 
 const connection = require('./db/connection');
 const { connect } = require('./db/connection');
+const { EPERM } = require('constants');
 
 
 function typeOfChoice() {
@@ -173,7 +174,66 @@ function addDepartment() {
     })
 }
 function addEmployee() {
-    
+    connection.query("SELECT * FROM role", function (err, res) {
+        if (err) throw err;
+
+        const roles = res.map((role) => {
+            return {
+                name: role.title,
+                value: role.id,
+            };
+        });
+    });
+    connection.query("SELECT * FROM employee", function (err, res) {
+        if (err) throw err;
+        const employees = res.map((employee) => {
+            return {
+                name: employee.first_name + " " + employee.last_name, 
+                value: employee.id 
+            };
+        });
+    });
+    inquirer.prompt([
+        {
+            message: " What is the first name of the employee?",
+            name: "first_name",
+            type: "input",
+        },
+        {
+            message: "What is the last name of the employee?",
+            name: "last_name",
+            type: "input",
+        },
+        {
+            message: "What is the role for the employee?",
+            name: "role_id",
+            type: "input",
+            choices: roles,
+        },
+        {
+            message: "Who is the manager for the employee?",
+            name: "manager_id",
+            type: "input",
+            choices: employees,
+        },
+    ])
+    .then(function(answer){
+        connection.query(
+            "INSERT INTO employee SET ?",
+            {
+                id: answer.id,
+                first_name: answer.first_name,
+                last_name: answer.last_name,
+                role_id: answer.role_id,
+                manager_id: answer.manager_id,
+            },
+            function (err, res) {
+                if (err) throw err;
+                console.log(affectionedRows + " role added!");
+                typeOfChoice();
+            }
+        );
+    });
 }
 function deleteDepartment() {
     connection.query("SELECT * FROM department", function (err, res) {
