@@ -180,7 +180,7 @@ function addEmployee() {
         const roles = res.map((role) => {
             return {
                 name: role.title,
-                value: role.id,
+                value: roles.id,
             };
         });
     });
@@ -189,7 +189,7 @@ function addEmployee() {
         const employees = res.map((employee) => {
             return {
                 name: employee.first_name + " " + employee.last_name, 
-                value: employee.id 
+                value: employees.id 
             };
         });
     });

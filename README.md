@@ -55,7 +55,7 @@ SQL- Employee Tracker application, is an application that was made from scratch,
 
 [Link to the Code Repository](https://github.com/DexterLGriffith/SQL-Employee-Tracker)
 
-[Screencastify]()
+[Screencastify](https://watch.screencastify.com/v/i2xPl2V54VbDikguj4sM)
 
 ## Credits
 

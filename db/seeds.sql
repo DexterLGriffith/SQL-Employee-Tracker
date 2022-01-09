@@ -16,4 +16,5 @@ VALUES
   ("Bob", "Dylan", 1, null),
   ("Tony", "Stark", 2, null),
   ("Mark", "Twain", 1, 1),
-  ("Molly", "Polly", 2, 1);
+  ("Molly", "Polly", 2, 1),
+  ("Bobby", "Ricky", 2, null);
